@@ -15,55 +15,37 @@
  * limitations under the License.
  */
 
-var buildMouseEvent = function(type) {
-    var evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent(type, true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    return evt;
-};
+/*global R, console*/
 
-var buildWheelEvent = function(type, n) {
-    var evt = document.createEvent("WheelEvent");
-    evt.initWebKitWheelEvent(0, n, window, 0, 0, 0, 0, false, false, false, false);
-    return evt;
-};
+;(function(source) {
+    var script = document.createElement('script');
+    script.textContent = ';(' + source + ')();';
+    document.documentElement.appendChild(script);
+    script.parentNode.removeChild(script);
+})(
+function() {
 
-var dispatchClick = function(element) {
-    element.dispatchEvent(buildMouseEvent('mouseover'));
-    element.dispatchEvent(buildMouseEvent('mousedown'));
-    element.dispatchEvent(buildMouseEvent('click'));
-    element.dispatchEvent(buildMouseEvent('mouseup'));
-};
-
-var dispatchWheel = function(element, n, c) {
-    for (var i = 0; i < c; i++) {
-        element.dispatchEvent(buildWheelEvent('mousewheel', n));
-    }
-};
-
-function getElementWithAttr(attr, value) {
-  var all = document.getElementsByTagName("*");
-  for (var i = 0; i < all.length; i++) {
-    if (all[i].getAttribute(attr) === value) {
-      return all[i];
-    }
-  }
-  return null;
-}
-
+console.log('PlayPlay Initialized.');
 var ws = new WebSocket('ws://localhost:6589');
 ws.onmessage = function (event) {
+    var vol;
+    /* cribbed from
+    http://bazaar.launchpad.net/~fenryxo/nuvola-player/trunk/view/head:/data/nuvolaplayer/services/rdio/integration.js*/
     if (event.data == "playPause") {
-        dispatchClick(getElementWithAttr("data-id", "play-pause"));
+        R.Services.Player.playPause();
     } else if (event.data == "prevTrack") {
-        dispatchClick(getElementWithAttr("data-id", "rewind"));
+        R.Services.Player.previous();
     } else if (event.data == "nextTrack") {
-        dispatchClick(getElementWithAttr("data-id", "forward"));
+        R.Services.Player.next();
     } else if (event.data == "volUp") {
-        dispatchWheel(document.getElementById("vslider"), 120, 10);
+        vol = R.Services.Player.volume();
+        R.Services.Player.volume(Math.min(1.0, vol + 0.05));
     } else if (event.data == "volDown") {
-        dispatchWheel(document.getElementById("vslider"), -120, 10);
+        vol = R.Services.Player.volume();
+        R.Services.Player.volume(Math.max(0.0, vol - 0.05));
     } else {
         console.log("unknown event " + event.data);
     }
 };
 
+});

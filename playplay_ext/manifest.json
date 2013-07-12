@@ -1,17 +1,17 @@
 {
-  "name": "PlayPlay",
-  "description": "Global shortcut keys for Google Play Music",
+  "name": "PlayPlay-Rdio",
+  "description": "Global shortcut keys for Rdio",
   "version": "0.1",
 
   "content_scripts": [
     {
-      "matches": ["https://play.google.com/music/*"],
+      "matches": ["http://www.rdio.com/*"],
       "js": ["playplay_client.js" ]
     }
   ],
 
   "permissions": [
-    "https://play.google.com/"
+    "http://www.rdio.com/"
   ],
 
   "manifest_version": 2
