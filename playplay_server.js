@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-var cmds = ['playPause', 'nextTrack', 'prevTrack', 'volUp', 'volDown'];
+var cmds = ['playPause', 'nextTrack', 'prevTrack', 'volUp', 'volDown', 'voteUp', 'voteDown', 'skip'];
 var clients = [];
 
 
