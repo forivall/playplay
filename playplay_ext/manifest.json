@@ -7,6 +7,9 @@
     {
       "matches": ["http://www.rdio.com/*"],
       "js": ["playplay_client.js" ]
+    }, {
+      "matches": ["http://cmd.fm/*"],
+      "js": ["playplay_cmdfm.js" ]
     }
   ],
 
