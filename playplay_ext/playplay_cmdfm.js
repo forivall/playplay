@@ -43,7 +43,7 @@ ws.onmessage = playplay.ws_onmessage = function (event) {
         vol = cmd_player.volume;
         cmd_player.set_volume(Math.min(100, vol + 5));
     } else if (action == "volDown") {
-        vol = R.Services.Player.volume();
+        vol = cmd_player.volume;
         cmd_player.set_volume(Math.max(0, vol - 5));
     } else {
         console.log("unknown event " + action);
